@@ -58,7 +58,9 @@ return {
         
         -- Additional useful keymaps (optional)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        -- Add to your keymaps
+        vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
       end
 
