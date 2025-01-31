@@ -59,29 +59,41 @@ return {
         -- Additional useful keymaps (optional)
         vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
         -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-        -- Add to your keymaps
         vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
       end
 
       -- Setup language servers
-      -- You'll need to install these language servers separately using Mason or your package manager
       local lspconfig = require('lspconfig')
       
-      -- Example server setups (uncomment and modify as needed):
-      -- lspconfig.lua_ls.setup({
-      --   capabilities = capabilities,
-      --   on_attach = on_attach,
-      -- })
+        lspconfig.yamlls.setup({
+          capabilities = capabilities,
+          on_attach = on_attach,
+        })
+
+        lspconfig.gopls.setup({
+          capabilities = capabilities,
+          on_attach = on_attach,
+        })
       
       lspconfig.pyright.setup({
         capabilities = capabilities,
         on_attach = on_attach,
         settings = {
-          reportUnknownParameterType = "none",
-          reportUnknownArgumentType = "none",
-          reportUnknownVariableType = "none",
-          reportUnknownMemberType = "none",
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+              diagnosticSeverityOverrides = {
+                reportOptionalSubscript = "none",
+                reportOptionalMemberAccess = "none",
+                reportOptionalCall = "none",
+                reportUnknownVariableType = "none",
+                -- reportUnknownArgumentType = "none",
+                -- reportUnknownParameterType = "none",
+                -- reportUnknownMemberType = "none",
+              }
+            }
+          }
         }
       })
       
@@ -103,9 +115,9 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           -- List the language servers you want to auto-install
-          -- "lua_ls",
           "pyright",
-          -- "tsserver",
+          "yamlls",
+          "gopls",
         },
         automatic_installation = true,
       })
