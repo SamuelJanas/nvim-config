@@ -77,6 +77,12 @@ return {
       lspconfig.pyright.setup({
         capabilities = capabilities,
         on_attach = on_attach,
+        settings = {
+          reportUnknownParameterType = "none",
+          reportUnknownArgumentType = "none",
+          reportUnknownVariableType = "none",
+          reportUnknownMemberType = "none",
+        }
       })
       
       -- lspconfig.tsserver.setup({
@@ -105,4 +111,10 @@ return {
       })
     end,
   },
+    {
+      "ray-x/lsp_signature.nvim",
+      event = "VeryLazy",
+      opts = {},
+      config = function(_, opts) require'lsp_signature'.setup(opts) end
+    },
 }
