@@ -26,3 +26,6 @@ map('v', '<Leader>s]', 'c[]<Esc>P')
 
 -- tree
 map('n', '<Leader>e', ':Neotree filesystem reveal right<CR>')
+
+-- remove highlight after search
+map('n', '<Esc>', ':noh<CR>')
