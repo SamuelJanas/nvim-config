@@ -24,6 +24,9 @@ map('v', '<Leader>s}', 'c{}<Esc>P')
 map('v', '<Leader>s[', 'c[]<Esc>P')
 map('v', '<Leader>s]', 'c[]<Esc>P')
 
+map('v', '<leader>s*', 'c****<Esc>hPw')
+map('n', '<leader>s*', 'ciw****<Esc>hPw')
+
 -- tree
 map('n', '<Leader>e', ':Neotree filesystem reveal right<CR>')
 
