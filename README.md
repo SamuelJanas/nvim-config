@@ -11,6 +11,9 @@ with TODO: integrate that with tmux.
 
 ## Install
 
-```
-git clone https://github.com/SamuelJanas/nvim-config.git ~/.config/nvim/
-```
+- need [nerdfonts](https://www.nerdfonts.com/) (i'm using JetBrainsMono NF) <- on windows set it up in your terminal 
+- Install [nvim](https://neovim.io/)
+- 
+  ```
+  git clone https://github.com/SamuelJanas/nvim-config.git ~/.config/nvim/
+  ```
