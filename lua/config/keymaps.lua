@@ -32,3 +32,10 @@ map('n', '<Leader>e', ':Neotree filesystem reveal right<CR>')
 
 -- remove highlight after search
 map('n', '<Esc>', ':noh<CR>')
+
+-- move between panes
+map('n', '<c-k>', ':wincmd k<CR>')
+map('n', '<c-j>', ':wincmd j<CR>')
+map('n', '<c-h>', ':wincmd h<CR>')
+map('n', '<c-l>', ':wincmd l<CR>')
+
