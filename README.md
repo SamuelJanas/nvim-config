@@ -7,6 +7,7 @@ edit lsp in lsp-config.
 - `<leader>e` for tree view (closes after picking a file
 - `gd` for go to definition
 - ctrl + hjkl for pane switching. **TODO**: integrate that with tmux
+- `:Neoformat` <optional formatter> for quick file formatting
 
 ## Install
 
