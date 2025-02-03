@@ -83,24 +83,11 @@ return {
           python = {
             analysis = {
               typeCheckingMode = "basic",
-              diagnosticSeverityOverrides = {
-                reportOptionalSubscript = "none",
-                reportOptionalMemberAccess = "none",
-                reportOptionalCall = "none",
-                reportUnknownVariableType = "none",
-                -- reportUnknownArgumentType = "none",
-                -- reportUnknownParameterType = "none",
-                -- reportUnknownMemberType = "none",
-              }
             }
           }
         }
       })
       
-      -- lspconfig.tsserver.setup({
-      --   capabilities = capabilities,
-      --   on_attach = on_attach,
-      -- })
     end,
   },
   {
@@ -114,7 +101,6 @@ return {
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {
-          -- List the language servers you want to auto-install
           "pyright",
           "yamlls",
           "gopls",
