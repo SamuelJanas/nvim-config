@@ -28,7 +28,7 @@ map('v', '<leader>s*', 'c****<Esc>hPw')
 map('n', '<leader>s*', 'ciw****<Esc>hPw')
 
 -- tree
-map('n', '<Leader>e', ':Neotree filesystem reveal right<CR>')
+map('n', '<Leader>e', ':Neotree filesystem toggle right<CR>')
 
 -- remove highlight after search
 map('n', '<Esc>', ':noh<CR>')
