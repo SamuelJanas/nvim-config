@@ -1,120 +1,135 @@
 return {
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/nvim-cmp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"L3MON4D3/LuaSnip",
-			"saadparwaiz1/cmp_luasnip",
-		},
-		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-			-- Setup nvim-cmp
-			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "buffer" },
-					{ name = "path" },
-				}),
-			})
-
-			-- LSP keymaps
-			local on_attach = function(client, bufnr)
-				local opts = { noremap = true, silent = true, buffer = bufnr }
-
-				-- Go to definition
-				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-				-- Hover information
-				vim.keymap.set("n", "gH", vim.lsp.buf.hover, opts)
-
-				-- Additional useful keymaps (optional)
-				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-				-- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-				vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", { noremap = true, silent = true })
-				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-			end
-
-			-- Setup language servers
-			local lspconfig = require("lspconfig")
-
-			lspconfig.yamlls.setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-			})
-
-			lspconfig.gopls.setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-			})
-
-			lspconfig.pyright.setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-				settings = {
-					python = {
-						analysis = {
-							typeCheckingMode = "off",
-							autoSearchPaths = true,
-						},
-					},
-				},
-			})
-		end,
-	},
-	{
+	"neovim/nvim-lspconfig",
+	dependencies = {
+		"stevearc/conform.nvim",
 		"williamboman/mason.nvim",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
 		"williamboman/mason-lspconfig.nvim",
-		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = {
-					"pyright",
-					"yamlls",
-					"gopls",
-				},
-				automatic_installation = true,
-			})
-		end,
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
+		"hrsh7th/cmp-cmdline",
+		"hrsh7th/nvim-cmp",
+		"L3MON4D3/LuaSnip",
+		"saadparwaiz1/cmp_luasnip",
+		"j-hui/fidget.nvim",
 	},
-	{
-		"ray-x/lsp_signature.nvim",
-		event = "VeryLazy",
-		opts = {},
-		config = function(_, opts)
-			require("lsp_signature").setup(opts)
-		end,
-	},
+
+	config = function()
+		require("conform").setup({
+			formatters_by_ft = {},
+		})
+		local cmp = require("cmp")
+		local cmp_lsp = require("cmp_nvim_lsp")
+		local capabilities = vim.tbl_deep_extend(
+			"force",
+			{},
+			vim.lsp.protocol.make_client_capabilities(),
+			cmp_lsp.default_capabilities()
+		)
+
+		require("fidget").setup({})
+		require("mason").setup()
+		require("mason-lspconfig").setup({
+			ensure_installed = {
+				"lua_ls",
+				"pyright",
+				"gopls",
+				"yamlls",
+			},
+			handlers = {
+				function(server_name) -- default handler (optional)
+					require("lspconfig")[server_name].setup({
+						capabilities = capabilities,
+					})
+				end,
+
+				zls = function()
+					local lspconfig = require("lspconfig")
+					lspconfig.zls.setup({
+						root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
+						settings = {
+							zls = {
+								enable_inlay_hints = true,
+								enable_snippets = true,
+								warn_style = true,
+							},
+						},
+					})
+					vim.g.zig_fmt_parse_errors = 0
+					vim.g.zig_fmt_autosave = 0
+				end,
+				["lua_ls"] = function()
+					local lspconfig = require("lspconfig")
+					lspconfig.lua_ls.setup({
+						capabilities = capabilities,
+						settings = {
+							Lua = {
+								runtime = { version = "Lua 5.1" },
+								diagnostics = {
+									globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
+								},
+							},
+						},
+					})
+				end,
+				["pyright"] = function()
+					local lspconfig = require("lspconfig")
+					lspconfig.pyright.setup({
+						capabilities = capabilities,
+						settings = {
+							python = {
+								analysis = {
+									typeCheckingMode = "off",
+									autoSearchPaths = true,
+								},
+							},
+						},
+					})
+				end,
+			},
+		})
+
+		local cmp_select = { behavior = cmp.SelectBehavior.Select }
+
+		cmp.setup({
+			snippet = {
+				expand = function(args)
+					require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+				end,
+			},
+			mapping = cmp.mapping.preset.insert({
+				["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+				["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+				["<C-y>"] = cmp.mapping.confirm({ select = true }),
+				["<C-Space>"] = cmp.mapping.complete(),
+			}),
+			sources = cmp.config.sources({
+				{ name = "nvim_lsp" },
+				{ name = "luasnip" }, -- For luasnip users.
+			}, {
+				{ name = "buffer" },
+			}),
+		})
+		local opts = { noremap = true, silent = true, buffer = bufnr }
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		-- Hover information
+		vim.keymap.set("n", "gH", vim.lsp.buf.hover, opts)
+
+		-- Additional useful keymaps (optional)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+		-- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+		vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", { noremap = true, silent = true })
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+		vim.diagnostic.config({
+			-- update_in_insert = true,
+			float = {
+				focusable = false,
+				style = "minimal",
+				border = "rounded",
+				source = "always",
+				header = "",
+				prefix = "",
+			},
+		})
+	end,
 }
