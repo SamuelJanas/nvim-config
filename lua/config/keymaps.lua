@@ -1,5 +1,6 @@
 local map = vim.keymap.set
 local builtin = require('telescope.builtin')
+local nvim_tmux_nav = require('nvim-tmux-navigation')
 
 vim.g.mapleader = " "
 
@@ -34,8 +35,18 @@ map('n', '<Leader>e', ':Neotree filesystem toggle right<CR>')
 map('n', '<Esc>', ':noh<CR>')
 
 -- move between panes
-map('n', '<c-k>', ':wincmd k<CR>')
-map('n', '<c-j>', ':wincmd j<CR>')
-map('n', '<c-h>', ':wincmd h<CR>')
-map('n', '<c-l>', ':wincmd l<CR>')
+-- map('n', '<c-k>', ':wincmd k<CR>')
+-- map('n', '<c-j>', ':wincmd j<CR>')
+-- map('n', '<c-h>', ':wincmd h<CR>')
+-- map('n', '<c-l>', ':wincmd l<CR>')
 
+nvim_tmux_nav.setup {
+disable_when_zoomed = true -- defaults to false
+}
+
+vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
+vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
