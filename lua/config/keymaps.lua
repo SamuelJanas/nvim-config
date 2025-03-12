@@ -73,3 +73,5 @@ map("n", "<leader>ca", "<Plug>(coc-codeaction)", { silent = true, desc = "Code a
 -- Show function signature while typing
 map("i", "<C-Space>", "coc#refresh()", { expr = true, silent = true })
 
+-- accept with tab
+vim.api.nvim_set_keymap("i", "<Tab>", "pumvisible() ? coc#_select_confirm() : \"<Tab>\"", { noremap = true, expr = true, silent = true })

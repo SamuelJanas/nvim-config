@@ -1,0 +1,8 @@
+{
+  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.useLibraryCodeForTypes": false,
+  "typescript.suggest.completeFunctionCalls": false,
+  "inlayHint.enable": false,
+}
