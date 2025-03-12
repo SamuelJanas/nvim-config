@@ -49,7 +49,7 @@ return {
 					hide_dotfiles = false,
 					hide_gitignored = true,
 				},
-				follow_current_file = true,
+				follow_current_file = {enabled=True},
 				use_libuv_file_watcher = true,
 				window = {
 					mappings = {

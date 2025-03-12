@@ -41,7 +41,7 @@ map('n', '<Esc>', ':noh<CR>')
 -- map('n', '<c-l>', ':wincmd l<CR>')
 
 nvim_tmux_nav.setup {
-disable_when_zoomed = true -- defaults to false
+	disable_when_zoomed = true -- defaults to false
 }
 
 vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
@@ -50,3 +50,26 @@ vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
 vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
 vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
 vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
+
+-- COC.NVIM
+
+-- LSP actions with coc.nvim
+map("n", "gd", "<Plug>(coc-definition)", { silent = true, desc = "Go to definition" })
+map("n", "gH", ":call CocActionAsync('doHover')<CR>", { silent = true, desc = "Show hover" })
+map("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true, desc = "Rename symbol" })
+map("n", "<leader>gr", "<Plug>(coc-references)", { silent = true, desc = "Find references" })
+map("n", "gi", "<Plug>(coc-implementation)", { silent = true, desc = "Go to implementation" })
+
+-- Diagnostics
+map("n", "[d", "<Plug>(coc-diagnostic-prev)", { silent = true, desc = "Previous diagnostic" })
+map("n", "]d", "<Plug>(coc-diagnostic-next)", { silent = true, desc = "Next diagnostic" })
+
+-- Format code
+map("n", "<leader>for", ":CocCommand editor.action.formatDocument<CR>", { silent = true, desc = "Format document" })
+
+-- Show available actions (like code actions in VS Code)
+map("n", "<leader>ca", "<Plug>(coc-codeaction)", { silent = true, desc = "Code actions" })
+
+-- Show function signature while typing
+map("i", "<C-Space>", "coc#refresh()", { expr = true, silent = true })
+
