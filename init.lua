@@ -5,7 +5,7 @@ else
 	require("config.lazy")
 	require("config.keymaps")
 
-	-- vim.cmd("set number")
+	vim.cmd("set number")
 	vim.cmd("set relativenumber")
 	vim.cmd("set scrolloff=12")
 	vim.cmd("set shiftwidth=4 smarttab")
