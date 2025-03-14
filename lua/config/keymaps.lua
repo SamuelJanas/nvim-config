@@ -49,7 +49,7 @@ vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
 vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
 vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
 vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
-vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
+-- vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
 
 -- COC.NVIM
 
@@ -75,4 +75,4 @@ map("n", "<leader>ca", "<Plug>(coc-codeaction)", { silent = true, desc = "Code a
 map("i", "<C-Space>", "coc#refresh()", { expr = true, silent = true })
 
 -- accept with tab
-vim.api.nvim_set_keymap("i", "<Tab>", "pumvisible() ? coc#_select_confirm() : \"<Tab>\"", { noremap = true, expr = true, silent = true })
+map("i", "<Tab>", "coc#pum#visible() ? coc#_select_confirm() : '<Tab>'", { expr = true, silent = true })
