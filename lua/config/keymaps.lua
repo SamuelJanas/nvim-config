@@ -57,7 +57,8 @@ vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
 map("n", "gd", "<Plug>(coc-definition)", { silent = true, desc = "Go to definition" })
 map("n", "gH", ":call CocActionAsync('doHover')<CR>", { silent = true, desc = "Show hover" })
 map("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true, desc = "Rename symbol" })
-map("n", "<leader>gr", "<Plug>(coc-references)", { silent = true, desc = "Find references" })
+-- map("n", "<leader>gr", "<Plug>(coc-references)", { silent = true, desc = "Find references" })
+map("n", "<leader>gr", ":Telescope coc references<CR>", { silent = true, desc = "Find references" })
 map("n", "gi", "<Plug>(coc-implementation)", { silent = true, desc = "Go to implementation" })
 
 -- Diagnostics
