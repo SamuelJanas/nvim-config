@@ -54,7 +54,8 @@ vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
 -- COC.NVIM
 
 -- LSP actions with coc.nvim
-map("n", "gd", ":Telescope coc definitions<CR>", { silent = true, desc = "Go to definition" })
+map("n", "gd", "<Plug>(coc-definition)", { silent = true, desc = "Go to definition" })
+map("n", "<leader>gd", ":Telescope coc definitions<CR>", { silent = true, desc = "Go to definition with telescope" })
 map("n", "gH", ":call CocActionAsync('doHover')<CR>", { silent = true, desc = "Show hover" })
 map("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true, desc = "Rename symbol" })
 -- map("n", "<leader>gr", "<Plug>(coc-references)", { silent = true, desc = "Find references" })
