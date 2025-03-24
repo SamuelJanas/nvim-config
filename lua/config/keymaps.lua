@@ -77,3 +77,7 @@ map("i", "<C-Space>", "coc#refresh()", { expr = true, silent = true })
 
 -- accept with tab
 map("i", "<Tab>", "coc#pum#visible() ? coc#_select_confirm() : '<Tab>'", { expr = true, silent = true })
+
+-- NVIM.IPY
+map("n", "<leader>x", "<Plug>(IPy-Run)", { silent = true, desc = "Execute IPython cell" })
+map("v", "<leader>x", "<Plug>(IPy-Run)", { silent = true, desc = "Execute IPython cell" })
