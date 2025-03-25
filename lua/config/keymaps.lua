@@ -1,6 +1,5 @@
 local map = vim.keymap.set
 local builtin = require('telescope.builtin')
-local nvim_tmux_nav = require('nvim-tmux-navigation')
 
 vim.g.mapleader = " "
 
@@ -34,23 +33,6 @@ map('n', '<Leader>e', ':Neotree filesystem toggle right<CR>')
 -- remove highlight after search
 map('n', '<Esc>', ':noh<CR>')
 
--- move between panes
--- map('n', '<c-k>', ':wincmd k<CR>')
--- map('n', '<c-j>', ':wincmd j<CR>')
--- map('n', '<c-h>', ':wincmd h<CR>')
--- map('n', '<c-l>', ':wincmd l<CR>')
-
-nvim_tmux_nav.setup {
-	disable_when_zoomed = true -- defaults to false
-}
-
-vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
-vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
-vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
-vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
-vim.keymap.set('n', "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
--- vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
-
 -- COC.NVIM
 
 -- LSP actions with coc.nvim
@@ -78,6 +60,8 @@ map("i", "<C-Space>", "coc#refresh()", { expr = true, silent = true })
 -- accept with tab
 map("i", "<Tab>", "coc#pum#visible() ? coc#_select_confirm() : '<Tab>'", { expr = true, silent = true })
 
--- NVIM.IPY
-map("n", "<leader>x", "<Plug>(IPy-Run)", { silent = true, desc = "Execute IPython cell" })
-map("v", "<leader>x", "<Plug>(IPy-Run)", { silent = true, desc = "Execute IPython cell" })
+-- IRON
+iron = require('iron.core')
+map('n', '<leader>ip', function() iron.repl_for('python') end, { desc = 'Start IPython REPL' })
+map('n', '<leader>x', function() iron.send_line() end, { desc = 'Send current line to IPython' })
+map('v', '<leader>x', function() iron.visual_send() end, { desc = 'Send visual selection to IPython' })
